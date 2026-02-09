@@ -1,0 +1,110 @@
+
+body{
+  font-family: "Orbitron", sans-serif;
+  background: radial-gradient(circle at top, #1c2f86 0%, #0b1026 55%, #070a14 100%);
+  color: #e9eefc;
+  min-height: 100vh;
+}
+
+h3{
+  color: #ffd400;
+  text-shadow: 0 0 10px rgba(255, 212, 0, 0.7);
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+h3 i{
+  margin-right: 10px;
+  filter: drop-shadow(0 0 8px rgba(255, 212, 0, 0.65));
+}
+
+p{
+  color: #cfd7ff;
+  margin-bottom: 0;
+}
+
+label{
+  color: #ffd400;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 212, 0, 0.35);
+}
+
+.form-control{
+  background: rgba(8, 14, 34, 0.75) !important;
+  border: 2px solid rgba(255, 212, 0, 0.7) !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  padding: 12px 12px !important;
+  box-shadow: 0 0 14px rgba(255, 212, 0, 0.15);
+}
+
+.form-control::placeholder{
+  color: rgba(233, 238, 252, 0.65);
+}
+
+.form-control:focus{
+  box-shadow: 0 0 0 0.25rem rgba(255, 212, 0, 0.25) !important;
+  border-color: #ffd400 !important;
+}
+
+.btn-warning{
+  background: linear-gradient(135deg, #ffd400, #ffb300) !important;
+  border: none !important;
+  color: #0b1026 !important;
+  font-weight: 900 !important;
+  border-radius: 10px !important;
+  padding: 10px 16px !important;
+  box-shadow: 0 0 18px rgba(255, 212, 0, 0.35);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.btn-warning:hover{
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 0 26px rgba(255, 212, 0, 0.6);
+}
+
+.loading{
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(12, 18, 45, 0.55);
+  border: 1px solid rgba(255, 212, 0, 0.35);
+  color: #ffd400;
+  box-shadow: 0 0 14px rgba(255, 212, 0, 0.15);
+}
+
+#resultado .card{
+  background: linear-gradient(160deg, rgba(8, 12, 28, 0.92), rgba(18, 28, 62, 0.92)) !important;
+  border: 2px solid rgba(255, 212, 0, 0.6) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 0 25px rgba(255, 212, 0, 0.18);
+  overflow: hidden;
+}
+
+#resultado .card-title{
+  color: #ffd400;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-shadow: 0 0 12px rgba(255, 212, 0, 0.55);
+  margin-bottom: 18px;
+}
+
+#resultado .card p{
+  color: #e9eefc;
+  margin: 8px 0;
+}
+
+#resultado .card p strong{
+  color: #ffd400;
+  text-shadow: 0 0 8px rgba(255, 212, 0, 0.25);
+}
+
+#resultado img{
+  border-radius: 18px;
+  border: 4px solid #ffd400;
+  box-shadow: 0 0 18px rgba(255, 212, 0, 0.55);
+}
+
+.container{
+  padding-bottom: 40px;
+}

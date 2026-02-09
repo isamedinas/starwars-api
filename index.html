@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>:: API Star Wars ::</title>
+
+  <!-- Icono de Pagina -->
+  <link rel="shortcut icon" href="./img/bolita.png" type="image/png">
+
+  <!-- Google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+
+  <!-- Font awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Jquery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+          crossorigin="anonymous"></script>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+          crossorigin="anonymous"></script>
+
+  <!-- Link CSS -->
+  <link rel="stylesheet" href="./estilos.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row mt-3">
+      <h3><i class="fa-solid fa-jedi"></i> Star Wars API</h3>
+      <p>Este Frontend muestra datos de los personajes de Star Wars</p>
+    </div>
+
+    <!-- Le pongo id al form para poder prevenir submit -->
+    <form id="formBusqueda">
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <label for="nombrePersonaje" class="label-control">Personaje</label>
+          <input
+            type="text"
+            name="nombrePersonaje"
+            id="nombrePersonaje"
+            class="form-control"
+            placeholder="Escribe un personaje (ej: luke, Vader, Yoda)"
+          >
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <button
+            class="btn btn-sm btn-warning"
+            type="button"
+            id="btnBuscar"
+          >
+            <i class="fa-solid fa-magnifying-glass"></i> Buscar
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="row my-5">
+      <div id="resultado">
+        <!-- Se llena desde AJAX -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function buscarPersonaje() {
+      const nombre = $("#nombrePersonaje").val().trim();
+
+      if (!nombre) {
+        $("#resultado").html('<p style="color: red;">Por favor escribe el nombre de un personaje</p>');
+        return;
+      }
+
+      // Mensaje de carga
+      $("#resultado").html('<div class="loading">Buscando info...</div>');
+
+      $.ajax({
+        url: "https://akabab.github.io/starwars-api/api/all.json",
+        method: "GET",
+        success: function (data) {
+          // Buscar personaje (insensible a mayúsculas/minúsculas)
+          const personaje = data.find(item =>
+            item.name.toLowerCase().includes(nombre.toLowerCase())
+          );
+
+          if (personaje) {
+            $("#resultado").html(`
+              <div class="card">
+                <div class="card-body">
+                  <h2 class="card-title">${personaje.name}</h2>
+                  <div class="row">
+                    <div class="col-md-7">
+                      <p><strong>Planeta de Origen:</strong> ${personaje.homeworld || 'Desconocido'}</p>
+                      <p><strong>Especie:</strong> ${personaje.species || 'Humano'}</p>
+                      <p><strong>Altura:</strong> ${personaje.height} m</p>
+                      <p><strong>Masa:</strong> ${personaje.mass} kg</p>
+                      <p><strong>Género:</strong> ${personaje.gender}</p>
+                      <p><strong>Color de Ojos:</strong> ${personaje.eyeColor}</p>
+                      <p><strong>Color de Cabello:</strong> ${personaje.hairColor}</p>
+                    </div>
+
+                    <div class="col-md-5 text-center d-flex align-items-center justify-content-center">
+                      <img
+                        src="${personaje.image}"
+                        alt="${personaje.name}"
+                        class="img-fluid"
+                        style="max-width: 250px; border-radius: 20px; border: 4px solid #ffc107; box-shadow: 0 8px 20px rgba(0,0,0,0.3);"
+                        onerror="this.src='https://via.placeholder.com/300x400?text=Imagen+no+disponible'"
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `);
+          } else {
+            $("#resultado").html(`
+              <p style="color: red;">
+                ❌ Personaje "${nombre}" no encontrado.
+                <br>Prueba con: luke, vader, leia, yoda, han, chewbacca
+              </p>
+            `);
+          }
+        },
+        error: function (error) {
+          $("#resultado").html('<p style="color: red;">Error al conectar con la API</p>');
+          console.log("Error:", error);
+        }
+      });
+    }
+
+    // Click del botón
+    $("#btnBuscar").on("click", function () {
+      buscarPersonaje();
+    });
+
+    // Prevenir submit del formulario (Enter)
+    $("#formBusqueda").on("submit", function (e) {
+      e.preventDefault();
+      buscarPersonaje();
+    });
+
+    // También permitir Enter en el input (extra)
+    $("#nombrePersonaje").on("keypress", function (e) {
+      if (e.which === 13) {
+        e.preventDefault();
+        buscarPersonaje();
+      }
+    });
+  </script>
+</body>
+</html>
